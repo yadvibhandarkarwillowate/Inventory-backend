@@ -56,7 +56,35 @@ public class InventoryController : ControllerBase
             return NotFound(new { message = ex.Message });
         }
     }
+    
+    [HttpPost("adjust")]
+    public async Task<ActionResult<StockChangeResult>> AdjustStock(AdjustStockRequest request)
+    {
+        try
+        {
+            var result = await _inventoryService.AdjustStockAsync(request, GetUserId());
+            return Ok(result);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new { message = ex.Message });
+        }
+}
 
+    [HttpGet("transactions")]
+    public async Task<ActionResult<PagedResult<TransactionDto>>> GetTransactions(
+        [FromQuery] long? productId, [FromQuery] string? type,
+        [FromQuery] DateTimeOffset? fromDate, [FromQuery] DateTimeOffset? toDate,
+        [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+    {
+        var result = await _inventoryService.GetTransactionHistoryAsync(
+            new TransactionQueryParams(productId, type, fromDate, toDate, page, pageSize));
+        return Ok(result);
+    }
 
     // TEMP helper — replace with real JWT claim once Auth is ready
     private long GetUserId() => 1;
