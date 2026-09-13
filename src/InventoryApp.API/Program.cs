@@ -1,11 +1,16 @@
 using InventoryApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
+using InventoryApp.Application.Services;
+using InventoryApp.Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // --- Database ---
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+           .UseSnakeCaseNamingConvention());
+
+builder.Services.AddScoped<IInventoryService, InventoryService>();
 
 // --- Controllers (needed for InventoryController etc. to work) ---
 builder.Services.AddControllers();
