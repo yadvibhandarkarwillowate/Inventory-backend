@@ -39,6 +39,25 @@ public class InventoryController : ControllerBase
         }
     }
 
+    [HttpPost("damaged-lost")]
+    public async Task<ActionResult<StockChangeResult>> RecordDamagedOrLost(DamagedLostRequest request)
+    {
+        try
+        {
+            var result = await _inventoryService.RecordDamagedOrLostAsync(request, GetUserId());
+            return Ok(result);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new { message = ex.Message });
+        }
+    }
+
+
     // TEMP helper — replace with real JWT claim once Auth is ready
     private long GetUserId() => 1;
 }
