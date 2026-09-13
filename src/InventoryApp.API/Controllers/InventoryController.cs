@@ -19,4 +19,26 @@ public class InventoryController : ControllerBase
         var result = await _inventoryService.GetStockLevelsAsync(new StockQueryParams(search, lowStockOnly, page, pageSize));
         return Ok(result);
     }
+
+
+    [HttpPost("issue")]
+    public async Task<ActionResult<StockChangeResult>> IssueStock(IssueStockRequest request)
+    {
+        try
+        {
+            var result = await _inventoryService.IssueStockAsync(request, GetUserId());
+            return Ok(result);
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new { message = ex.Message });
+        }
+    }
+
+    // TEMP helper — replace with real JWT claim once Auth is ready
+    private long GetUserId() => 1;
 }
