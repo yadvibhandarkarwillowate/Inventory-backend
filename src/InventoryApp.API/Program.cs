@@ -2,6 +2,7 @@ using InventoryApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using InventoryApp.Application.Services;
 using InventoryApp.Application.Interfaces;
+using InventoryApp.Application.Reports;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
            .UseSnakeCaseNamingConvention());
 
 builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<IReportsService, ReportsService>();
 
 // --- Controllers (needed for InventoryController etc. to work) ---
 builder.Services.AddControllers();

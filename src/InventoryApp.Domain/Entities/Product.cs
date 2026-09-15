@@ -7,4 +7,5 @@ public class Product
     public string Name { get; set; } = string.Empty;
     public int CurrentStock { get; set; }
     public int ReorderLevel { get; set; }
+    public decimal PurchasePrice { get; set; }
 }
