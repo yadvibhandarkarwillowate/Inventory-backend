@@ -7,12 +7,20 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+    // User table  
+    public DbSet<User> Users { get  ; set ; }
+
     public DbSet<Product> Products { get; set; }
+    
     public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        
+        // user table
+        modelBuilder.Entity<User>( entity => entity.ToTable("user")) ; 
 
         modelBuilder.Entity<InventoryTransaction>(entity =>
         {
