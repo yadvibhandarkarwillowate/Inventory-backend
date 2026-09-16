@@ -14,5 +14,5 @@ public class SupplierResponseDto
 
     public string? Address { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 }

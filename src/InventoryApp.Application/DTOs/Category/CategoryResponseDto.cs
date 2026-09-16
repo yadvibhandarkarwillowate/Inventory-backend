@@ -8,5 +8,5 @@ public class CategoryResponseDto
 
     public string? Description { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
 }

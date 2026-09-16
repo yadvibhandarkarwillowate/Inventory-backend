@@ -14,5 +14,5 @@ public class Supplier
 
     public string? Address { get; set; }
 
-    public DateTime CreatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
 }
