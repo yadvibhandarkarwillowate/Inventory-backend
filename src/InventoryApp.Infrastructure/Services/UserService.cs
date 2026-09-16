@@ -11,7 +11,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 
 
-namespace InventoryApp.Application.Services;
+namespace InventoryApp.Infrastructure.Services;
 
 public class UserService : IUserService
 {

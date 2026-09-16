@@ -1,6 +1,6 @@
-namespace InventoryApp.Domain.Entities;
+namespace InventoryApp.Application.DTOs.Supplier;
 
-public class Supplier
+public class SupplierResponseDto
 {
     public long Id { get; set; }
 
@@ -14,5 +14,5 @@ public class Supplier
 
     public string? Address { get; set; }
 
-    public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
+    public DateTimeOffset CreatedAt { get; set; }
 }

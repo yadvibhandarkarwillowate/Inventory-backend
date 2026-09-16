@@ -5,7 +5,7 @@ using InventoryApp.Domain.Enums;
 using InventoryApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace InventoryApp.Application.Services;
+namespace InventoryApp.Infrastructure.Services;
 
 public class InventoryService : IInventoryService
 {
