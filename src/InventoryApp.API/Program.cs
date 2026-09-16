@@ -1,21 +1,24 @@
+using InventoryApp.Application.Interfaces;
+using InventoryApp.Application.Services;
 using InventoryApp.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using InventoryApp.Application.Services;
-using InventoryApp.Application.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- Database ---
+// --- Database Configuration ---
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
            .UseSnakeCaseNamingConvention());
 
+// --- Dependency Injection (Services) ---
+builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+// --- JWT Authentication ---
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -39,9 +42,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization();
 
-// --- Controllers (needed for InventoryController etc. to work) ---
+// --- Controllers ---
 builder.Services.AddControllers();
 
+// --- CORS Policy ---
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -52,15 +56,13 @@ builder.Services.AddCors(options =>
     });
 });
 
-
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+// --- Swagger / OpenAPI ---
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// --- HTTP Pipeline ---
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
