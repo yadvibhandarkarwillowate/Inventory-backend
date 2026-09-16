@@ -1,10 +1,13 @@
 using InventoryApp.Application.DTOs.Inventory;
 using InventoryApp.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace InventoryApp.API.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/inventory")]
 public class InventoryController : ControllerBase
 {
@@ -86,6 +89,6 @@ public class InventoryController : ControllerBase
         return Ok(result);
     }
 
-    // TEMP helper — replace with real JWT claim once Auth is ready
-    private long GetUserId() => 1;
+    // Extract real User ID from JWT claim
+    private long GetUserId() => long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 }
